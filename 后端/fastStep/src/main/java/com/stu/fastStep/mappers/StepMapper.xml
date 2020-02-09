@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+    <!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="YFMapper">
+	<select id="selectStepsByUserId" parameterType="int" resultType="Step">
+		select * from step where userId = #{userId}
+	</select>
+	
+	<select id="selectStepByUserAndCoupon" parameterType="int" resultType="Step">
+		select * from step where userId = #{userId} and couponId=#{couponId}
+	</select>
+	
+	<update id="updateStepByUserId"  parameterType="Step"  >
+	 UPDATE step
+	 <trim prefix="set" suffixOverrides=",">
+		  <if test="userId!=null">userId=#{userId},</if>
+		  <if test="couponId!=null">couponId=#{couponId},</if>
+		  <if test="time!=null">time=#{time},</if>
+	 </trim>
+	 WHERE id=#{id}
+	</update>
+	
+	
+	<insert id="insertStep"  parameterType="Step" useGeneratedKeys="true" keyProperty="id">
+		insert into step
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId!=null">userId,</if>
+			  <if test="couponId!=null">couponId,</if>
+			  <if test="time!=null">time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId!=null">#{userId},</if>
+		  <if test="couponId!=null">#{couponId},</if>
+		  <if test="time!=null">#{time},</if>
+		</trim>
+	</insert>
+	
+</mapper>

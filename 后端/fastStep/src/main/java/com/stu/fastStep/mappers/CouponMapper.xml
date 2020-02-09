@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="YFMapper">
+	
+	<select id="selectCouponById" parameterType="int" resultType="Coupon">
+		select * from coupon where id = #{id}
+	</select>
+	<select id="selectCouponByGoodId" parameterType="int" resultType="Coupon">
+		select * from coupon where goodId = #{goodId}
+	</select>
+	
+	<!-- 模糊查询 -->
+	<select id="selectCouponLikeName" resultType="Coupon" parameterType="Coupon">
+		SELECT * FROM coupon where name LIKE concat('%',#{name},'%') limit 10
+	</select>
+	
+	<update id="updateCoupon"  parameterType="Coupon">
+	 UPDATE coupon
+	 <trim prefix="set" suffixOverrides=",">
+	  <if test="name!=null">name=#{name},</if>
+	  <if test="startTime!=null">startTime=#{startTime},</if>
+	  <if test="endTime!=null">endTime=#{endTime},</if>
+	  <if test="image!=null">image=#{image},</if>
+	  <if test="url!=null">url=#{url},</if>
+	  <if test="beforeMoney!=null">beforeMoney=#{beforeMoney},</if>
+	  <if test="afterMoney!=null">afterMoney=#{afterMoney},</if>
+	  <if test="saleNumber!=null">saleNumber=#{saleNumber},</if>
+	 </trim>
+	 WHERE id=#{id}
+	</update>
+	
+	<insert id="insertCoupon"  parameterType="Coupon" useGeneratedKeys="true" keyProperty="id">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null">name,</if>
+	  		<if test="startTime!=null">startTime,</if>
+	  		<if test="endTime!=null">endTime,</if>
+	  		<if test="moneyAmount!=null">moneyAmount,</if>
+	  		<if test="image!=null">image,</if>
+	  <if test="url!=null">url,</if>
+	  <if test="beforeMoney!=null">beforeMoney,</if>
+	  <if test="afterMoney!=null">afterMoney,</if>
+	  <if test="saleNumber!=null">saleNumber,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name!=null">#{name},</if>
+	  		<if test="startTime!=null">#{startTime},</if>
+	  		<if test="endTime!=null">#{endTime},</if>
+	  		<if test="moneyAmount!=null">#{moneyAmount},</if>
+	  		<if test="image!=null">#{image},</if>
+	  <if test="url!=null">#{url},</if>
+	  <if test="beforeMoney!=null">#{beforeMoney},</if>
+	  <if test="afterMoney!=null">#{afterMoney},</if>
+	  <if test="saleNumber!=null">#{saleNumber},</if>
+		</trim>
+	</insert>
+	<delete id="deleteById">
+	    delete from coupon where id = #{id}
+	</delete>
+	
+	
+</mapper>

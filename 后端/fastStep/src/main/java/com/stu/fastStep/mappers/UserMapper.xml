@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="YFMapper">
+	<select id="selectUserById" parameterType="int" resultType="User">
+		select * from user where id = #{id}
+	</select>
+	<select id="selectUserByNumber" parameterType="String" resultType="User">
+		select * from user where number = #{number}
+	</select>
+	
+	<update id="updateUser"  parameterType="User">
+	 UPDATE user
+	 <trim prefix="set" suffixOverrides=",">
+	  <if test="number!=null">number=#{number},</if>
+	  <if test="password!=null">password=#{password},</if>
+	  <if test="name!=null">name=#{name},</if>
+	 </trim>
+	 WHERE id=#{id}
+	</update>
+	
+	<insert id="insertUser"  parameterType="User" useGeneratedKeys="true" keyProperty="id">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="number!=null">number,</if>
+	  		<if test="password!=null">password,</if>
+	  		<if test="name!=null">name,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="number!=null">#{number},</if>
+	  		<if test="password!=null">#{password},</if>
+	  		<if test="name!=null">#{name},</if>
+		</trim>
+	</insert>
+</mapper>
